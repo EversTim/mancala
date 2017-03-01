@@ -105,4 +105,18 @@ public class LocationTest {
 		Location locThirteen = field.getNthLocationRelative(13);
 		assertTrue(locThirteen instanceof Kalaha);
 	}
+
+	@Test
+	public void ownerOfLocationShouldChangeAfterKalaha() {
+		Location field = new Field();
+		Location fieldAfterKalaha = field.getNextKalaha().getNextLocation();
+		assertFalse(field.getPlayer() == fieldAfterKalaha.getPlayer());
+	}
+
+	@Test
+	public void ownerOfLocationShouldSwitchToOpponentAfterKalaha() {
+		Location field = new Field();
+		Location fieldAfterKalaha = field.getNextKalaha().getNextLocation();
+		assertTrue(field.getPlayer().getOpponent() == fieldAfterKalaha.getPlayer());
+	}
 }

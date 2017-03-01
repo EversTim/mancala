@@ -4,11 +4,12 @@ public class Field extends Location {
 
 	public Field() {
 		this.stones = 4;
-		this.nextLocation = new Field(this, 13);
+		this.player = new Player();
+		this.nextLocation = new Field(this, 13, this);
 	}
 
-	Field(Location firstLocation, int fieldsToGo) {
-		super(firstLocation, fieldsToGo);
+	Field(Location firstLocation, int fieldsToGo, Location previous) {
+		super(firstLocation, fieldsToGo, previous);
 		this.stones = 4;
 	}
 

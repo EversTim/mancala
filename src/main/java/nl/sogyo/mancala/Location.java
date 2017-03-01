@@ -3,21 +3,31 @@ package nl.sogyo.mancala;
 public abstract class Location {
 	int stones;
 	Location nextLocation;
+	Player player;
 
 	Location() {
 	}
 
-	Location(Location firstLocation, int fieldsToGo) {
+	Location(Location firstLocation, int fieldsToGo, Location previous) {
 		fieldsToGo--;
+		if (previous instanceof Kalaha) {
+			this.player = previous.getPlayer().getOpponent();
+		} else {
+			this.player = previous.getPlayer();
+		}
 		if (fieldsToGo > 0) {
 			if ((fieldsToGo % 7) == 1) {
-				this.nextLocation = new Kalaha(firstLocation, fieldsToGo);
+				this.nextLocation = new Kalaha(firstLocation, fieldsToGo, this);
 			} else {
-				this.nextLocation = new Field(firstLocation, fieldsToGo);
+				this.nextLocation = new Field(firstLocation, fieldsToGo, this);
 			}
 		} else {
 			this.nextLocation = firstLocation;
 		}
+	}
+
+	public Player getPlayer() {
+		return this.player;
 	}
 
 	void continueMove(int stonesToGo) {
@@ -54,7 +64,7 @@ public abstract class Location {
 	}
 
 	// Mainly debug methods
-	Kalaha getNextKahala() {
+	Kalaha getNextKalaha() {
 		Location loc = this;
 		while (!(loc instanceof Kalaha)) {
 			loc = loc.getNextLocation();

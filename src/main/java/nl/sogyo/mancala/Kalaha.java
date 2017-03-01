@@ -7,8 +7,8 @@ public class Kalaha extends Location {
 		this.nextLocation = this;
 	}
 
-	Kalaha(Location firstLocation, int fieldsToGo) {
-		super(firstLocation, fieldsToGo);
+	Kalaha(Location firstLocation, int fieldsToGo, Location previous) {
+		super(firstLocation, fieldsToGo, previous);
 		this.stones = 0;
 	}
 
