@@ -18,6 +18,7 @@ local.properties
 
 ### Java
 *.class
+*.classpath
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -26,3 +27,4 @@ local.properties
 *.jar
 *.war
 *.ear
+/target/
