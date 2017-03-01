@@ -23,5 +23,4 @@ public class Field extends Location {
 		this.stones = 0;
 		return stonesToTake;
 	}
-
 }

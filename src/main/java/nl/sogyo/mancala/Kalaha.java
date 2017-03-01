@@ -16,4 +16,13 @@ public class Kalaha extends Location {
 	public boolean isPlayable() {
 		return false;
 	}
+
+	@Override
+	void continueMove(int stonesToGo) {
+		if (this.getPlayer().hasTurn()) {
+			super.continueMove(stonesToGo);
+		} else {
+			this.getNextLocation().continueMove(stonesToGo);
+		}
+	}
 }

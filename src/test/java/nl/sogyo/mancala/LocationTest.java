@@ -119,4 +119,40 @@ public class LocationTest {
 		Location fieldAfterKalaha = field.getNextKalaha().getNextLocation();
 		assertTrue(field.getPlayer().getOpponent() == fieldAfterKalaha.getPlayer());
 	}
+
+	@Test
+	public void getNextKalahaShouldAlwaysBeOwnKalahaFromFieldZero() {
+		Location field = new Field();
+		Player ownPlayer = field.getPlayer();
+		Kalaha nextKalaha = field.getNextKalaha();
+		Player kalahaPlayer = nextKalaha.getPlayer();
+		assertEquals(ownPlayer, kalahaPlayer);
+	}
+
+	@Test
+	public void getNextKalahaShouldAlwaysBeOwnKalahaFromFieldSix() {
+		Location field = (new Field()).getNthLocationRelative(6);
+		Player ownPlayer = field.getPlayer();
+		Kalaha nextKalaha = field.getNextKalaha();
+		Player kalahaPlayer = nextKalaha.getPlayer();
+		assertEquals(ownPlayer, kalahaPlayer);
+	}
+
+	@Test
+	public void getNextKalahaShouldAlwaysBeOwnKalahaFromFieldSeven() {
+		Location field = (new Field()).getNthLocationRelative(7);
+		Player ownPlayer = field.getPlayer();
+		Kalaha nextKalaha = field.getNextKalaha();
+		Player kalahaPlayer = nextKalaha.getPlayer();
+		assertEquals(ownPlayer, kalahaPlayer);
+	}
+
+	@Test
+	public void getNextKalahaShouldAlwaysBeOwnKalahaFromFieldThirteen() {
+		Location field = (new Field()).getNthLocationRelative(13);
+		Player ownPlayer = field.getPlayer();
+		Kalaha nextKalaha = field.getNextKalaha();
+		Player kalahaPlayer = nextKalaha.getPlayer();
+		assertEquals(ownPlayer, kalahaPlayer);
+	}
 }

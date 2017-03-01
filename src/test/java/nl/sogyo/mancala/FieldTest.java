@@ -50,4 +50,20 @@ public class FieldTest {
 		field.takeStones();
 		assertEquals(0, field.getStones());
 	}
+
+	@Test
+	public void opponentKalahaShouldNotTakeAStone() {
+		Field field = new Field();
+		field = (Field) field.getNthLocationRelative(12);
+		field.doMove();
+		assertEquals(0, field.getNextLocation().getStones());
+	}
+
+	@Test
+	public void ownKalahaShouldTakeAStone() {
+		Field field = new Field();
+		field = (Field) field.getNthLocationRelative(5);
+		field.doMove();
+		assertEquals(1, field.getNextLocation().getStones());
+	}
 }

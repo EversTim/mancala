@@ -31,9 +31,14 @@ public abstract class Location {
 	}
 
 	void continueMove(int stonesToGo) {
-		if (stonesToGo > 0) {
-			this.stones++;
+		this.stones++;
+		if (stonesToGo > 1) {
 			this.getNextLocation().continueMove(stonesToGo - 1);
+		} else {
+			// TODO Refactor, then implement stealing
+			if (!(this instanceof Kalaha)) {
+				this.getPlayer().endTurn();
+			}
 		}
 	}
 
