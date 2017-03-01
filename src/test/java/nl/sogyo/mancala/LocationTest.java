@@ -7,14 +7,14 @@ import org.junit.Test;
 public class LocationTest {
 
 	@Test
-	public void doMoveOnNewBoardShouldAddOneToFieldOne() {
+	public void doMoveOnNewBoardShouldAddOneToLocationOne() {
 		Field field = new Field();
 		field.doMove();
 		assertEquals(5, field.getNextLocation().getNextLocation().getStones());
 	}
 
 	@Test
-	public void doMoveOnNewBoardShouldAddOneToFieldFour() {
+	public void doMoveOnNewBoardShouldAddOneToLocationFour() {
 		Field field = new Field();
 		field.doMove();
 		Location fieldFour = field.getNextLocation().getNextLocation().getNextLocation().getNextLocation();
@@ -22,7 +22,7 @@ public class LocationTest {
 	}
 
 	@Test
-	public void doMoveOnNewBoardShouldAddOneToFieldFourUsingGetNthFieldMethod() {
+	public void doMoveOnNewBoardShouldAddOneToLocationFourUsingGetNthFieldMethod() {
 		Field field = new Field();
 		field.doMove();
 		Location fieldFour = field.getNthLocationRelative(4);
@@ -30,7 +30,7 @@ public class LocationTest {
 	}
 
 	@Test
-	public void doMoveOnNewBoardShouldAddZeroToFieldFive() {
+	public void doMoveOnNewBoardShouldAddZeroToLocationFive() {
 		Field field = new Field();
 		field.doMove();
 		Location fieldFive = field.getNextLocation().getNextLocation().getNextLocation().getNextLocation()
@@ -39,7 +39,7 @@ public class LocationTest {
 	}
 
 	@Test
-	public void fieldFourteenShouldEqualFieldZero() {
+	public void locationFourteenShouldEqualLocationZero() {
 		Field field = new Field();
 		Location fieldFourteen = field.getNextLocation().getNextLocation().getNextLocation().getNextLocation()
 				.getNextLocation().getNextLocation().getNextLocation().getNextLocation().getNextLocation()
@@ -48,20 +48,20 @@ public class LocationTest {
 	}
 
 	@Test
-	public void fieldFourteenShouldEqualFieldZeroUsingGetNthFieldMethod() {
+	public void locationFourteenShouldEqualLocationZeroUsingGetNthFieldMethod() {
 		Field field = new Field();
 		Location fieldFourteen = field.getNthLocationRelative(14);
 		assertEquals(fieldFourteen, field);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void getNthFieldRelativeShouldThrowErrorIfNIsNegative() {
+	public void getNthLocationRelativeShouldThrowErrorIfNIsNegative() {
 		Field field = new Field();
 		field.getNthLocationRelative(-1);
 	}
 
 	@Test
-	public void fieldZeroShouldBeOppositeFieldTwelve() {
+	public void locationZeroShouldBeOppositeLocationTwelve() {
 		Field field = new Field();
 		Location opposite = field.getOpposite();
 		Location fieldThirteen = field.getNthLocationRelative(12);
@@ -69,7 +69,7 @@ public class LocationTest {
 	}
 
 	@Test
-	public void fieldFiveShouldBeOppositeFieldSeven() {
+	public void locationFiveShouldBeOppositeLocationSeven() {
 		Location fieldFive = (new Field()).getNthLocationRelative(5);
 		Location opposite = fieldFive.getOpposite();
 		Location fieldSeven = fieldFive.getNthLocationRelative(2);
@@ -77,7 +77,7 @@ public class LocationTest {
 	}
 
 	@Test
-	public void fieldTwelveShouldBeOppositeFieldZero() {
+	public void locationTwelveShouldBeOppositeLocationZero() {
 		Field field = new Field();
 		Location fieldThirteen = field.getNthLocationRelative(12);
 		Location opposite = fieldThirteen.getOpposite();
@@ -85,7 +85,7 @@ public class LocationTest {
 	}
 
 	@Test
-	public void fieldSevenShouldBeOppositeFieldFive() {
+	public void locationSevenShouldBeOppositeLocationFive() {
 		Location fieldFive = (new Field()).getNthLocationRelative(5);
 		Location fieldSeven = fieldFive.getNthLocationRelative(2);
 		Location opposite = fieldSeven.getOpposite();
@@ -93,14 +93,14 @@ public class LocationTest {
 	}
 
 	@Test
-	public void fieldSixShouldBeKalaha() {
+	public void locationSixShouldBeKalaha() {
 		Location field = new Field();
 		Location locSix = field.getNthLocationRelative(6);
 		assertTrue(locSix instanceof Kalaha);
 	}
 
 	@Test
-	public void fieldThirteenShouldBeKalaha() {
+	public void locationThirteenShouldBeKalaha() {
 		Location field = new Field();
 		Location locThirteen = field.getNthLocationRelative(13);
 		assertTrue(locThirteen instanceof Kalaha);
