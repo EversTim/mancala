@@ -91,4 +91,18 @@ public class FieldTest {
 		field.getNextLocation().add(2);
 		field.doMove();
 	}
+
+	@Test
+	public void endingInStartingFieldShouldStealOpposingStones() {
+		Field field = new Field(13);
+		field.doMove();
+		assertEquals(0, field.getOpposite().getStones());
+	}
+
+	@Test
+	public void endingInStartingFieldShouldAddOpposingStonesToKalaha() {
+		Field field = new Field(13);
+		field.doMove();
+		assertEquals(16, field.getNextKalaha().getStones());
+	}
 }

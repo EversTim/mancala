@@ -20,8 +20,9 @@ class Field extends Location {
 	void doMove() {
 		if (this.hasMove()) {
 			if (this.isPlayable()) {
-				this.getNextLocation().continueMove(this.getStones());
+				int stonesToMove = this.getStones();
 				this.stones = 0;
+				this.getNextLocation().continueMove(stonesToMove);
 			} else {
 				throw new IllegalArgumentException("Cannot move opponents fields or your empty fields!");
 			}
@@ -48,10 +49,9 @@ class Field extends Location {
 
 	@Override
 	void continueMove(int stonesToGo) {
-		int preMoveStones = this.getStones();
 		super.continueMove(stonesToGo);
 		if (stonesToGo == 1) {
-			if (preMoveStones == 0) {
+			if (this.getStones() == 1) {
 				int stonesTaken = ((Field) this.getOpposite()).takeStones();
 				this.empty();
 				Kalaha ownKalaha = this.getNextKalaha();
