@@ -2,7 +2,7 @@ package nl.sogyo.mancala.backend;
 
 public class Kalaha extends Location {
 
-	public Kalaha() {
+	Kalaha() {
 		this.stones = 0;
 		this.nextLocation = this;
 	}
@@ -13,7 +13,7 @@ public class Kalaha extends Location {
 	}
 
 	@Override
-	public boolean isPlayable() {
+	boolean isPlayable() {
 		return false;
 	}
 
@@ -30,17 +30,17 @@ public class Kalaha extends Location {
 	}
 
 	@Override
-	public int getTotalStonesToKalaha() {
+	int getTotalStonesToKalaha() {
 		return this.getStones();
 	}
 
 	@Override
-	public void moveStonesToKalaha() {
+	void moveStonesToKalaha() {
 		return;
 	}
 
 	@Override
-	public Location getOpposite() {
+	Location getOpposite() {
 		return this;
 	}
 

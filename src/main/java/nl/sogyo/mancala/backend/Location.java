@@ -24,7 +24,7 @@ public abstract class Location {
 		}
 	}
 
-	public Player getPlayer() {
+	Player getPlayer() {
 		return this.player;
 	}
 
@@ -37,7 +37,7 @@ public abstract class Location {
 		}
 	}
 
-	public Location getOpposite() {
+	Location getOpposite() {
 		Location toTest = this;
 		int count = 0;
 		while (!(toTest instanceof Kalaha)) {
@@ -51,15 +51,15 @@ public abstract class Location {
 		return opposite;
 	}
 
-	public Location getNextLocation() {
+	Location getNextLocation() {
 		return this.nextLocation;
 	}
 
-	public int getStones() {
+	int getStones() {
 		return this.stones;
 	}
 
-	public boolean isPlayable() {
+	boolean isPlayable() {
 		return (this.getPlayer().hasTurn() && (this.getStones() != 0));
 	}
 
@@ -68,7 +68,7 @@ public abstract class Location {
 	}
 
 	// Mainly debug methods
-	public Location getNthLocationRelative(int n) {
+	Location getNthLocationRelative(int n) {
 		if (n < 0) {
 			throw new IllegalArgumentException();
 		} else if (n == 0) {
@@ -77,17 +77,17 @@ public abstract class Location {
 		return this.getNextLocation().getNthLocationRelative(n - 1);
 	}
 
-	public int getTotalStonesToKalaha() {
+	int getTotalStonesToKalaha() {
 		return this.getStones() + this.getNextLocation().getTotalStonesToKalaha();
 	}
 
-	public void moveStonesToKalaha() {
+	void moveStonesToKalaha() {
 		this.getNextLocation().add(this.getStones());
 		this.stones = 0;
 		this.getNextLocation().moveStonesToKalaha();
 	}
 
-	public void findWinner() {
+	void findWinner() {
 		Kalaha kalahaOne = this.getNextKalaha();
 		Kalaha kalahaTwo = kalahaOne.getNextLocation().getNextKalaha();
 		if (kalahaOne.getStones() > kalahaTwo.getStones()) {
@@ -110,7 +110,7 @@ public abstract class Location {
 		this.findWinner();
 	}
 
-	public void add(int stones) {
+	void add(int stones) {
 		this.stones += stones;
 	}
 }

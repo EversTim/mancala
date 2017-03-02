@@ -2,7 +2,7 @@ package nl.sogyo.mancala.backend;
 
 public class Field extends Location {
 
-	public Field() {
+	Field() {
 		this(4);
 	}
 
@@ -11,13 +11,13 @@ public class Field extends Location {
 		this.stones = stones;
 	}
 
-	public Field(int stones) {
+	Field(int stones) {
 		this.stones = stones;
 		this.player = new Player();
 		this.nextLocation = new Field(stones, this, 13, this.player);
 	}
 
-	public void doMove() {
+	void doMove() {
 		if (this.hasMove()) {
 			if (this.isPlayable()) {
 				this.getNextLocation().continueMove(this.getStones());
@@ -40,7 +40,7 @@ public class Field extends Location {
 		return false;
 	}
 
-	public int takeStones() {
+	int takeStones() {
 		int stonesToTake = this.getStones();
 		this.empty();
 		return stonesToTake;
