@@ -1,6 +1,6 @@
 package nl.sogyo.mancala.backend;
 
-public class Field extends Location {
+class Field extends Location {
 
 	Field() {
 		this(4);

@@ -1,6 +1,6 @@
 package nl.sogyo.mancala.backend;
 
-public abstract class Location {
+abstract class Location {
 	int stones;
 	Location nextLocation;
 	Player player;

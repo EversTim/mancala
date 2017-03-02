@@ -1,6 +1,6 @@
 package nl.sogyo.mancala.backend;
 
-public class Player {
+class Player {
 
 	private Player opponent;
 	private boolean hasTurn;
