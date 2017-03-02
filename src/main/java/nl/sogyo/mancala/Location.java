@@ -9,15 +9,19 @@ public abstract class Location {
 	}
 
 	Location(Location firstLocation, int fieldsToGo, Player player) {
+		this(4, firstLocation, fieldsToGo, player);
+	}
+
+	Location(int stones, Location firstLocation, int fieldsToGo, Player player) {
 		fieldsToGo--;
 		this.player = player;
 		if (fieldsToGo > 0) {
 			if ((fieldsToGo % 7) == 1) {
-				this.nextLocation = new Kalaha(firstLocation, fieldsToGo, player);
+				this.nextLocation = new Kalaha(stones, firstLocation, fieldsToGo, player);
 			} else if ((fieldsToGo % 7) == 0) {
-				this.nextLocation = new Field(firstLocation, fieldsToGo, player.getOpponent());
+				this.nextLocation = new Field(stones, firstLocation, fieldsToGo, player.getOpponent());
 			} else {
-				this.nextLocation = new Field(firstLocation, fieldsToGo, player);
+				this.nextLocation = new Field(stones, firstLocation, fieldsToGo, player);
 			}
 		} else {
 			this.nextLocation = firstLocation;
@@ -32,8 +36,8 @@ public abstract class Location {
 		this.stones++;
 		if (stonesToGo > 1) {
 			this.getNextLocation().continueMove(stonesToGo - 1);
-		} else {
-			this.player.endTurn();
+		} else if (stonesToGo == 1) {
+			this.getPlayer().getOpponent().changeTurn();
 		}
 	}
 
@@ -60,26 +64,57 @@ public abstract class Location {
 	}
 
 	public boolean isPlayable() {
-		return true;
+		return this.getPlayer().hasTurn();
+	}
+
+	Kalaha getNextKalaha() {
+		return this.getNextLocation().getNextKalaha();
 	}
 
 	// Mainly debug methods
-	Kalaha getNextKalaha() {
-		Location loc = this;
-		while (!(loc instanceof Kalaha)) {
-			loc = loc.getNextLocation();
-		}
-		return (Kalaha) loc;
-	}
-
 	public Location getNthLocationRelative(int n) {
 		if (n < 0) {
 			throw new IllegalArgumentException();
+		} else if (n == 0) {
+			return this;
 		}
-		Location loc = this;
-		for (int i = 0; i < n; i++) {
-			loc = loc.getNextLocation();
+		return this.getNextLocation().getNthLocationRelative(n - 1);
+	}
+
+	public int getTotalStonesToKalaha() {
+		return this.getStones() + this.getNextLocation().getTotalStonesToKalaha();
+	}
+
+	public void moveStonesToKalaha() {
+		this.getNextLocation().add(this.getStones());
+		this.stones = 0;
+		this.getNextLocation().moveStonesToKalaha();
+	}
+
+	public void findWinner() {
+		Kalaha kalahaOne = this.getNextKalaha();
+		Kalaha kalahaTwo = kalahaOne.getNextLocation().getNextKalaha();
+		if (kalahaOne.getStones() > kalahaTwo.getStones()) {
+			kalahaOne.getPlayer().setWinner(Winner.SELF);
+			kalahaTwo.getPlayer().setWinner(Winner.OTHER);
+		} else if (kalahaOne.getStones() < kalahaTwo.getStones()) {
+			kalahaOne.getPlayer().setWinner(Winner.OTHER);
+			kalahaTwo.getPlayer().setWinner(Winner.SELF);
+		} else {
+			kalahaOne.getPlayer().setWinner(Winner.DRAW);
+			kalahaTwo.getPlayer().setWinner(Winner.DRAW);
 		}
-		return loc;
+	}
+
+	void endGame() {
+		Location loc = this.getNextKalaha().getNextLocation();
+		loc.moveStonesToKalaha();
+		loc = loc.getNextKalaha().getNextLocation();
+		loc.moveStonesToKalaha();
+		this.findWinner();
+	}
+
+	public void add(int stones) {
+		this.stones += stones;
 	}
 }

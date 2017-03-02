@@ -22,7 +22,7 @@ public class FieldTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void shouldNotDoMoveOnOpponentSquares() {
 		Field field = new Field();
-		field.getPlayer().endTurn();
+		field.getPlayer().changeTurn();
 		field.doMove();
 	}
 
@@ -66,5 +66,19 @@ public class FieldTest {
 		field.doMove();
 		Location fieldFour = field.getNthLocationRelative(4);
 		assertEquals(0, fieldFour.getOpposite().getStones());
+	}
+
+	@Test
+	public void landingInOwnEmptyFieldShouldEmptyOwnField() {
+		Field field = Field.getTakeStonesTestSetup();
+		field.doMove();
+		Location fieldFour = field.getNthLocationRelative(4);
+		assertEquals(0, fieldFour.getStones());
+	}
+
+	@Test
+	public void askForSixStonesOnNewBoardShouldGiveSixStones() {
+		Field field = new Field(6);
+		assertEquals(6, field.getStones());
 	}
 }

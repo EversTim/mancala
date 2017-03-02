@@ -4,15 +4,16 @@ public class Player {
 
 	private Player opponent;
 	private boolean hasTurn;
+	private Winner winner;
 
 	public Player() {
-		this.hasTurn = true;
 		this.opponent = new Player(this);
+		this.hasTurn = true;
 	}
 
 	public Player(Player opponent) {
-		this.hasTurn = false;
 		this.opponent = opponent;
+		this.hasTurn = false;
 	}
 
 	public Player getOpponent() {
@@ -23,12 +24,20 @@ public class Player {
 		return this.hasTurn;
 	}
 
-	public void startTurn() {
-		this.hasTurn = true;
+	public void changeTurn() {
+		this.getOpponent().setTurn(this.hasTurn);
+		this.hasTurn = !this.hasTurn;
 	}
 
-	public void endTurn() {
-		this.hasTurn = false;
-		this.opponent.startTurn();
+	public void setTurn(boolean hasTurn) {
+		this.hasTurn = hasTurn;
+	}
+
+	public Winner getWinner() {
+		return this.winner;
+	}
+
+	void setWinner(Winner winner) {
+		this.winner = winner;
 	}
 }

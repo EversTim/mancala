@@ -9,7 +9,7 @@ public class PlayerTest {
 	@Test
 	public void playerShouldBeOpponentsOpponent() {
 		Player player = new Player();
-		assertEquals(player, player.getOpponent().getOpponent());
+		assertSame(player, player.getOpponent().getOpponent());
 	}
 
 	@Test
@@ -33,7 +33,7 @@ public class PlayerTest {
 	@Test
 	public void playerAndOpponentShouldHaveDifferentTurnsAfterSwitch() {
 		Player player = new Player();
-		player.endTurn();
+		player.changeTurn();
 		assertNotEquals(player.hasTurn(), player.getOpponent().hasTurn());
 	}
 

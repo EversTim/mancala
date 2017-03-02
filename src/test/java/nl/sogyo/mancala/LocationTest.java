@@ -44,14 +44,14 @@ public class LocationTest {
 		Location fieldFourteen = field.getNextLocation().getNextLocation().getNextLocation().getNextLocation()
 				.getNextLocation().getNextLocation().getNextLocation().getNextLocation().getNextLocation()
 				.getNextLocation().getNextLocation().getNextLocation().getNextLocation().getNextLocation();
-		assertEquals(fieldFourteen, field);
+		assertSame(fieldFourteen, field);
 	}
 
 	@Test
 	public void locationFourteenShouldEqualLocationZeroUsingGetNthFieldMethod() {
 		Location field = new Field();
 		Location fieldFourteen = field.getNthLocationRelative(14);
-		assertEquals(fieldFourteen, field);
+		assertSame(fieldFourteen, field);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -65,7 +65,7 @@ public class LocationTest {
 		Location field = new Field();
 		Location opposite = field.getOpposite();
 		Location fieldThirteen = field.getNthLocationRelative(12);
-		assertEquals(fieldThirteen, opposite);
+		assertSame(fieldThirteen, opposite);
 	}
 
 	@Test
@@ -73,7 +73,7 @@ public class LocationTest {
 		Location fieldFive = (new Field()).getNthLocationRelative(5);
 		Location opposite = fieldFive.getOpposite();
 		Location fieldSeven = fieldFive.getNthLocationRelative(2);
-		assertEquals(fieldSeven, opposite);
+		assertSame(fieldSeven, opposite);
 	}
 
 	@Test
@@ -81,7 +81,7 @@ public class LocationTest {
 		Location field = new Field();
 		Location fieldThirteen = field.getNthLocationRelative(12);
 		Location opposite = fieldThirteen.getOpposite();
-		assertEquals(field, opposite);
+		assertSame(field, opposite);
 	}
 
 	@Test
@@ -89,7 +89,7 @@ public class LocationTest {
 		Location fieldFive = (new Field()).getNthLocationRelative(5);
 		Location fieldSeven = fieldFive.getNthLocationRelative(2);
 		Location opposite = fieldSeven.getOpposite();
-		assertEquals(fieldFive, opposite);
+		assertSame(fieldFive, opposite);
 	}
 
 	@Test
@@ -110,14 +110,14 @@ public class LocationTest {
 	public void ownerOfLocationShouldChangeAfterKalaha() {
 		Location field = new Field();
 		Location fieldAfterKalaha = field.getNextKalaha().getNextLocation();
-		assertFalse(field.getPlayer() == fieldAfterKalaha.getPlayer());
+		assertNotSame(field.getPlayer(), fieldAfterKalaha.getPlayer());
 	}
 
 	@Test
 	public void ownerOfLocationShouldSwitchToOpponentAfterKalaha() {
 		Location field = new Field();
 		Location fieldAfterKalaha = field.getNextKalaha().getNextLocation();
-		assertTrue(field.getPlayer().getOpponent() == fieldAfterKalaha.getPlayer());
+		assertSame(field.getPlayer().getOpponent(), fieldAfterKalaha.getPlayer());
 	}
 
 	@Test
@@ -126,7 +126,7 @@ public class LocationTest {
 		Player ownPlayer = field.getPlayer();
 		Kalaha nextKalaha = field.getNextKalaha();
 		Player kalahaPlayer = nextKalaha.getPlayer();
-		assertEquals(ownPlayer, kalahaPlayer);
+		assertSame(ownPlayer, kalahaPlayer);
 	}
 
 	@Test
@@ -135,7 +135,7 @@ public class LocationTest {
 		Player ownPlayer = field.getPlayer();
 		Kalaha nextKalaha = field.getNextKalaha();
 		Player kalahaPlayer = nextKalaha.getPlayer();
-		assertEquals(ownPlayer, kalahaPlayer);
+		assertSame(ownPlayer, kalahaPlayer);
 	}
 
 	@Test
@@ -144,7 +144,7 @@ public class LocationTest {
 		Player ownPlayer = field.getPlayer();
 		Kalaha nextKalaha = field.getNextKalaha();
 		Player kalahaPlayer = nextKalaha.getPlayer();
-		assertEquals(ownPlayer, kalahaPlayer);
+		assertSame(ownPlayer, kalahaPlayer);
 	}
 
 	@Test
@@ -153,6 +153,48 @@ public class LocationTest {
 		Player ownPlayer = field.getPlayer();
 		Kalaha nextKalaha = field.getNextKalaha();
 		Player kalahaPlayer = nextKalaha.getPlayer();
-		assertEquals(ownPlayer, kalahaPlayer);
+		assertSame(ownPlayer, kalahaPlayer);
 	}
+
+	@Test
+	public void getTotalStonesOnNewBoardShouldReturnTwentyFour() {
+		Location field = new Field();
+		assertEquals(24, field.getTotalStonesToKalaha());
+	}
+
+	@Test
+	public void currentPlayerShouldWinGetCheckWinnerPlayerOneTestSetup() {
+		Field field = Field.getCheckWinnerPlayerOneTestSetup();
+		field.doMove();
+		assertEquals(Winner.SELF, field.getPlayer().getWinner());
+	}
+
+	@Test
+	public void otherPlayerShouldLoseGetCheckWinnerPlayerOneTestSetup() {
+		Field field = Field.getCheckWinnerPlayerOneTestSetup();
+		field.doMove();
+		assertEquals(Winner.OTHER, field.getPlayer().getOpponent().getWinner());
+	}
+
+	@Test
+	public void otherPlayerShouldWinGetCheckWinnerPlayerTwoTestSetup() {
+		Field field = Field.getCheckWinnerPlayerTwoTestSetup();
+		field.doMove();
+		assertEquals(Winner.SELF, field.getPlayer().getOpponent().getWinner());
+	}
+
+	@Test
+	public void currentPlayerShouldLoseGetCheckWinnerPlayerTwoTestSetup() {
+		Field field = Field.getCheckWinnerPlayerTwoTestSetup();
+		field.doMove();
+		assertEquals(Winner.OTHER, field.getPlayer().getWinner());
+	}
+
+	@Test
+	public void newFieldShouldDraw() {
+		Field field = new Field();
+		field.endGame();
+		assertEquals(Winner.DRAW, field.getPlayer().getWinner());
+	}
+
 }

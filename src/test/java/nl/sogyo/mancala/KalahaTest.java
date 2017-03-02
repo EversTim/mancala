@@ -16,14 +16,15 @@ public class KalahaTest {
 	public void kalahaIsItsOwnOpposite() {
 		Kalaha k = new Kalaha();
 		Location opp = k.getOpposite();
-		assertEquals(k, opp);
+		assertSame(k, opp);
 	}
 
 	@Test
 	public void opponentKalahaShouldNotTakeAStone() {
 		Field field = new Field();
-		field = (Field) field.getNthLocationRelative(12);
+		field.stones = 14;
 		field.doMove();
+		field = (Field) field.getNthLocationRelative(12);
 		assertEquals(0, field.getNextLocation().getStones());
 	}
 
@@ -41,5 +42,12 @@ public class KalahaTest {
 		field.doMove();
 		Kalaha kal = field.getNextKalaha();
 		assertEquals(5, kal.getStones());
+	}
+
+	@Test
+	public void kalahaShouldHaveOneStoneAfterEndingInKalaha() {
+		Field field = (Field) (new Field()).getNthLocationRelative(2);
+		field.doMove();
+		assertEquals(1, field.getNextKalaha().getStones());
 	}
 }
