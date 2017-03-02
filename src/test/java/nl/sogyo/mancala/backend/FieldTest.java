@@ -105,4 +105,11 @@ public class FieldTest {
 		field.doMove();
 		assertEquals(16, field.getNextKalaha().getStones());
 	}
+
+	@Test
+	public void endingInOpponentEmptyFieldShouldNotStealStones() {
+		Field field = Field.endInEmptyOpponentFieldTestSetup();
+		((Field) field.getNthLocationRelative(3)).doMove();
+		assertEquals(5, field.getNthLocationRelative(5).getStones());
+	}
 }

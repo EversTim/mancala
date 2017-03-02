@@ -42,10 +42,12 @@ class Field extends Location {
 		super.continueMove(stonesToGo);
 		if (stonesToGo == 1) {
 			if (this.getStones() == 1) {
-				int stonesTaken = ((Field) this.getOpposite()).takeStones();
-				this.empty();
-				Kalaha ownKalaha = this.getNextKalaha();
-				ownKalaha.add(stonesTaken + 1);
+				if (!this.getPlayer().hasTurn()) {
+					int stonesTaken = ((Field) this.getOpposite()).takeStones();
+					this.empty();
+					Kalaha ownKalaha = this.getNextKalaha();
+					ownKalaha.add(stonesTaken + 1);
+				}
 			}
 		}
 	}
@@ -59,6 +61,12 @@ class Field extends Location {
 		Field field = new Field();
 		Field fieldFour = (Field) field.getNthLocationRelative(4);
 		fieldFour.stones = 0;
+		return field;
+	}
+
+	static Field endInEmptyOpponentFieldTestSetup() {
+		Field field = new Field();
+		field.getNextKalaha().getNextLocation().stones = 0;
 		return field;
 	}
 
