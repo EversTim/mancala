@@ -1,8 +1,11 @@
-package nl.sogyo.mancala;
+package nl.sogyo.mancala.backend;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import nl.sogyo.mancala.backend.Field;
+import nl.sogyo.mancala.backend.Location;
 
 public class FieldTest {
 
@@ -80,5 +83,12 @@ public class FieldTest {
 	public void askForSixStonesOnNewBoardShouldGiveSixStones() {
 		Field field = new Field(6);
 		assertEquals(6, field.getStones());
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void playingEmptyFieldShouldThrowErrorIfOtherMoveExists() {
+		Field field = new Field(0);
+		field.getNextLocation().add(2);
+		field.doMove();
 	}
 }

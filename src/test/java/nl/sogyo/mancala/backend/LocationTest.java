@@ -1,8 +1,14 @@
-package nl.sogyo.mancala;
+package nl.sogyo.mancala.backend;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import nl.sogyo.mancala.backend.Field;
+import nl.sogyo.mancala.backend.Kalaha;
+import nl.sogyo.mancala.backend.Location;
+import nl.sogyo.mancala.backend.Player;
+import nl.sogyo.mancala.backend.Winner;
 
 public class LocationTest {
 

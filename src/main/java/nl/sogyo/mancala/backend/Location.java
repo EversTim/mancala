@@ -1,4 +1,4 @@
-package nl.sogyo.mancala;
+package nl.sogyo.mancala.backend;
 
 public abstract class Location {
 	int stones;
@@ -6,10 +6,6 @@ public abstract class Location {
 	Player player;
 
 	Location() {
-	}
-
-	Location(Location firstLocation, int fieldsToGo, Player player) {
-		this(4, firstLocation, fieldsToGo, player);
 	}
 
 	Location(int stones, Location firstLocation, int fieldsToGo, Player player) {
@@ -64,7 +60,7 @@ public abstract class Location {
 	}
 
 	public boolean isPlayable() {
-		return this.getPlayer().hasTurn();
+		return (this.getPlayer().hasTurn() && (this.getStones() != 0));
 	}
 
 	Kalaha getNextKalaha() {

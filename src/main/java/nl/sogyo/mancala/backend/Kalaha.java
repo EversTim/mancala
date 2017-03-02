@@ -1,15 +1,10 @@
-package nl.sogyo.mancala;
+package nl.sogyo.mancala.backend;
 
 public class Kalaha extends Location {
 
 	public Kalaha() {
 		this.stones = 0;
 		this.nextLocation = this;
-	}
-
-	Kalaha(Location firstLocation, int fieldsToGo, Player player) {
-		this(4, firstLocation, fieldsToGo, player);
-		this.stones = 0;
 	}
 
 	Kalaha(int stones, Location firstLocation, int fieldsToGo, Player player) {

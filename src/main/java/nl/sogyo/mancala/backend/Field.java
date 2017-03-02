@@ -1,14 +1,9 @@
-package nl.sogyo.mancala;
+package nl.sogyo.mancala.backend;
 
 public class Field extends Location {
 
 	public Field() {
 		this(4);
-	}
-
-	Field(Location firstLocation, int fieldsToGo, Player player) {
-		this(4, firstLocation, fieldsToGo, player);
-		this.stones = 4;
 	}
 
 	Field(int stones, Location firstLocation, int fieldsToGo, Player player) {
@@ -23,15 +18,15 @@ public class Field extends Location {
 	}
 
 	public void doMove() {
-		if (this.isPlayable()) {
-			if (this.hasMove()) {
+		if (this.hasMove()) {
+			if (this.isPlayable()) {
 				this.getNextLocation().continueMove(this.getStones());
 				this.stones = 0;
 			} else {
-				this.endGame();
+				throw new IllegalArgumentException("Cannot move opponents fields or your empty fields!");
 			}
 		} else {
-			throw new IllegalArgumentException("Cannot move opponents fields!");
+			this.endGame();
 		}
 	}
 
@@ -78,13 +73,7 @@ public class Field extends Location {
 	}
 
 	static Field getCheckWinnerPlayerOneTestSetup() {
-		Field field = new Field();
-		field.stones = 0;
-		Location cur = field.getNextLocation();
-		while (cur != field) {
-			cur.stones = 0;
-			cur = cur.getNextLocation();
-		}
+		Field field = new Field(0);
 		Kalaha kal = field.getNextKalaha();
 		kal.stones = 6;
 		return field;
