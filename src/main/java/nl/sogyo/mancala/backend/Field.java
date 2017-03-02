@@ -31,16 +31,6 @@ class Field extends Location {
 		}
 	}
 
-	private boolean hasMove() {
-		Kalaha thisPlayersKalaha = this.getNextKalaha();
-		Field firstField = (Field) thisPlayersKalaha.getNextLocation().getNextKalaha().getNextLocation();
-		int totalStones = firstField.getTotalStonesToKalaha();
-		if (totalStones > thisPlayersKalaha.getStones()) {
-			return true;
-		}
-		return false;
-	}
-
 	int takeStones() {
 		int stonesToTake = this.getStones();
 		this.empty();

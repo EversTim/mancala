@@ -1,5 +1,5 @@
 package nl.sogyo.mancala.backend;
 
-enum Winner {
-	UNDECIDED, DRAW, SELF, OTHER;
+public enum Winner {
+	UNDECIDED, DRAW, PLAYER_ONE, PLAYER_TWO;
 }

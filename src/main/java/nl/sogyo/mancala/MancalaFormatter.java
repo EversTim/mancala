@@ -8,15 +8,15 @@ import nl.sogyo.mancala.backend.Mancala;
 
 public class MancalaFormatter {
 
-	private static final int FIELDSIZEINTERNAL = 3;
-	private static final int KALAHASIZEINTERNAL = 3;
+	private static final int FIELDWIDTHINTERNAL = 2;
+	private static final int KALAHAWIDTHINTERNAL = 2;
 
-	private static final int FIELDSIZETOTAL = 3;
-	private static final int KALAHASIZETOTAL = 3;
+	private static final int FIELDWIDTHTOTAL = 4;
+	private static final int KALAHAWIDTHTOTAL = 4;
 
-	private static final int SPACERSIZE = 1;
+	private static final int SPACERWIDTH = 1;
 
-	private static final int TOTALSIZE = (2 * KALAHASIZETOTAL) + (6 * FIELDSIZETOTAL) + (7 * SPACERSIZE);
+	private static final int TOTALWIDTH = (2 * KALAHAWIDTHTOTAL) + (6 * FIELDWIDTHTOTAL) + (7 * SPACERWIDTH);
 
 	public static String format(Mancala mancala) {
 		List<Integer> stones = mancala.getStoneAmounts();
@@ -28,14 +28,14 @@ public class MancalaFormatter {
 		build.append(fieldLine(p2));
 		build.append('\n');
 
-		build.append(emptyLine());
+		build.append(fieldNumbersReverse());
 		build.append('\n');
 
 		build.append(kalahaLine(kalahas));
 
 		build.append('\n');
 
-		build.append(emptyLine());
+		build.append(fieldNumbers());
 		build.append('\n');
 
 		build.append(fieldLine(p1));
@@ -43,26 +43,72 @@ public class MancalaFormatter {
 		return build.toString();
 	}
 
-	private static StringBuilder emptyLine() {
-		return new StringBuilder();
+	private static StringBuilder fieldNumbers() {
+		StringBuilder build = new StringBuilder();
+		build.append(padRight("", KALAHAWIDTHTOTAL + SPACERWIDTH));
+		for (int i = 1; i <= 6; i++) {
+			build.append(" ");
+			build.append(padLeft(Integer.toString(i), FIELDWIDTHINTERNAL));
+			build.append(" ");
+			build.append(padRight("", SPACERWIDTH));
+		}
+		return build;
+	}
+
+	private static StringBuilder fieldNumbersReverse() {
+		StringBuilder build = new StringBuilder();
+		build.append(padRight("", KALAHAWIDTHTOTAL + SPACERWIDTH));
+		for (int i = 6; i >= 1; i--) {
+			build.append(" ");
+			build.append(padLeft(Integer.toString(i), FIELDWIDTHINTERNAL));
+			build.append(" ");
+			build.append(padRight("", SPACERWIDTH));
+		}
+		return build;
 	}
 
 	private static StringBuilder kalahaLine(List<Integer> kalahaStones) {
 		StringBuilder build = new StringBuilder();
-		build.append(padLeft(Integer.toString(kalahaStones.get(1)), KALAHASIZEINTERNAL));
-		build.append(padRight("", TOTALSIZE - (2 * KALAHASIZETOTAL)));
-		build.append(padLeft(Integer.toString(kalahaStones.get(0)), KALAHASIZEINTERNAL));
+		build.append(padRight("", KALAHAWIDTHTOTAL, '-'));
+		build.append(padRight("", TOTALWIDTH - (2 * KALAHAWIDTHTOTAL)));
+		build.append(padRight("", KALAHAWIDTHTOTAL, '-'));
+		build.append('\n');
+		build.append("|");
+		build.append(padLeft(Integer.toString(kalahaStones.get(1)), KALAHAWIDTHINTERNAL));
+		build.append("|");
+		build.append(padRight("", TOTALWIDTH - (2 * KALAHAWIDTHTOTAL)));
+		build.append("|");
+		build.append(padLeft(Integer.toString(kalahaStones.get(0)), KALAHAWIDTHINTERNAL));
+		build.append("|");
+		build.append('\n');
+		build.append(padRight("", KALAHAWIDTHTOTAL, '-'));
+		build.append(padRight("", TOTALWIDTH - (2 * KALAHAWIDTHTOTAL)));
+		build.append(padRight("", KALAHAWIDTHTOTAL, '-'));
 		return build;
 	}
 
 	private static StringBuilder fieldLine(List<Integer> fieldStones) {
 		StringBuilder build = new StringBuilder();
-		build.append(padRight("", KALAHASIZETOTAL + SPACERSIZE));
+		build.append(padRight("", KALAHAWIDTHTOTAL + SPACERWIDTH));
 		for (int i : fieldStones) {
-			build.append(padLeft(Integer.toString(i), FIELDSIZEINTERNAL));
-			build.append(padRight("", SPACERSIZE));
+			build.append(padLeft("", FIELDWIDTHTOTAL, '-'));
+			build.append(padRight("", SPACERWIDTH));
 		}
-		build.append(padRight("", KALAHASIZETOTAL));
+		build.append('\n');
+		build.append(padRight("", KALAHAWIDTHTOTAL + SPACERWIDTH));
+		for (int i : fieldStones) {
+			build.append("|");
+			build.append(padLeft(Integer.toString(i), FIELDWIDTHINTERNAL));
+			build.append("|");
+			build.append(padRight("", SPACERWIDTH));
+		}
+		build.append('\n');
+		build.append(padRight("", KALAHAWIDTHTOTAL + SPACERWIDTH));
+		for (int i : fieldStones) {
+			build.append(padLeft("", FIELDWIDTHTOTAL, '-'));
+			build.append(padRight("", SPACERWIDTH));
+		}
+		build.append('\n');
 		return build;
 	}
 

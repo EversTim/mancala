@@ -32,4 +32,10 @@ public class MancalaTest {
 		Integer[] actual = mancala.getStoneAmounts().toArray(new Integer[stones.size()]);
 		assertArrayEquals(expected, actual);
 	}
+
+	@Test
+	public void newBoardShouldNotHaveWinner() {
+		Mancala mancala = new Mancala();
+		assertFalse(mancala.hasWinner());
+	}
 }

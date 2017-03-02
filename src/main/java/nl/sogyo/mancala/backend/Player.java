@@ -4,16 +4,18 @@ class Player {
 
 	private Player opponent;
 	private boolean hasTurn;
-	private Winner winner;
+	private WinnerRelative winner;
 
 	Player() {
 		this.opponent = new Player(this);
 		this.hasTurn = true;
+		this.winner = WinnerRelative.UNDECIDED;
 	}
 
 	Player(Player opponent) {
 		this.opponent = opponent;
 		this.hasTurn = false;
+		this.winner = WinnerRelative.UNDECIDED;
 	}
 
 	Player getOpponent() {
@@ -33,11 +35,11 @@ class Player {
 		this.hasTurn = hasTurn;
 	}
 
-	Winner getWinner() {
+	WinnerRelative getWinner() {
 		return this.winner;
 	}
 
-	void setWinner(Winner winner) {
+	void setWinner(WinnerRelative winner) {
 		this.winner = winner;
 	}
 }

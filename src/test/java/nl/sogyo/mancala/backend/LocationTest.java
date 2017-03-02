@@ -8,7 +8,7 @@ import nl.sogyo.mancala.backend.Field;
 import nl.sogyo.mancala.backend.Kalaha;
 import nl.sogyo.mancala.backend.Location;
 import nl.sogyo.mancala.backend.Player;
-import nl.sogyo.mancala.backend.Winner;
+import nl.sogyo.mancala.backend.WinnerRelative;
 
 public class LocationTest {
 
@@ -172,35 +172,35 @@ public class LocationTest {
 	public void currentPlayerShouldWinGetCheckWinnerPlayerOneTestSetup() {
 		Field field = Field.getCheckWinnerPlayerOneTestSetup();
 		field.doMove();
-		assertEquals(Winner.SELF, field.getPlayer().getWinner());
+		assertEquals(WinnerRelative.SELF, field.getPlayer().getWinner());
 	}
 
 	@Test
 	public void otherPlayerShouldLoseGetCheckWinnerPlayerOneTestSetup() {
 		Field field = Field.getCheckWinnerPlayerOneTestSetup();
 		field.doMove();
-		assertEquals(Winner.OTHER, field.getPlayer().getOpponent().getWinner());
+		assertEquals(WinnerRelative.OTHER, field.getPlayer().getOpponent().getWinner());
 	}
 
 	@Test
 	public void otherPlayerShouldWinGetCheckWinnerPlayerTwoTestSetup() {
 		Field field = Field.getCheckWinnerPlayerTwoTestSetup();
 		field.doMove();
-		assertEquals(Winner.SELF, field.getPlayer().getOpponent().getWinner());
+		assertEquals(WinnerRelative.SELF, field.getPlayer().getOpponent().getWinner());
 	}
 
 	@Test
 	public void currentPlayerShouldLoseGetCheckWinnerPlayerTwoTestSetup() {
 		Field field = Field.getCheckWinnerPlayerTwoTestSetup();
 		field.doMove();
-		assertEquals(Winner.OTHER, field.getPlayer().getWinner());
+		assertEquals(WinnerRelative.OTHER, field.getPlayer().getWinner());
 	}
 
 	@Test
 	public void newFieldShouldDraw() {
 		Field field = new Field();
 		field.endGame();
-		assertEquals(Winner.DRAW, field.getPlayer().getWinner());
+		assertEquals(WinnerRelative.DRAW, field.getPlayer().getWinner());
 	}
 
 }

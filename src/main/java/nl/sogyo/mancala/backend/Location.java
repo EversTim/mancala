@@ -81,6 +81,16 @@ abstract class Location {
 		return this.getStones() + this.getNextLocation().getTotalStonesToKalaha();
 	}
 
+	boolean hasMove() {
+		Kalaha thisPlayersKalaha = this.getNextKalaha();
+		Field firstField = (Field) thisPlayersKalaha.getNextLocation().getNextKalaha().getNextLocation();
+		int totalStones = firstField.getTotalStonesToKalaha();
+		if (totalStones > thisPlayersKalaha.getStones()) {
+			return true;
+		}
+		return false;
+	}
+
 	void moveStonesToKalaha() {
 		this.getNextLocation().add(this.getStones());
 		this.stones = 0;
@@ -91,14 +101,14 @@ abstract class Location {
 		Kalaha kalahaOne = this.getNextKalaha();
 		Kalaha kalahaTwo = kalahaOne.getNextLocation().getNextKalaha();
 		if (kalahaOne.getStones() > kalahaTwo.getStones()) {
-			kalahaOne.getPlayer().setWinner(Winner.SELF);
-			kalahaTwo.getPlayer().setWinner(Winner.OTHER);
+			kalahaOne.getPlayer().setWinner(WinnerRelative.SELF);
+			kalahaTwo.getPlayer().setWinner(WinnerRelative.OTHER);
 		} else if (kalahaOne.getStones() < kalahaTwo.getStones()) {
-			kalahaOne.getPlayer().setWinner(Winner.OTHER);
-			kalahaTwo.getPlayer().setWinner(Winner.SELF);
+			kalahaOne.getPlayer().setWinner(WinnerRelative.OTHER);
+			kalahaTwo.getPlayer().setWinner(WinnerRelative.SELF);
 		} else {
-			kalahaOne.getPlayer().setWinner(Winner.DRAW);
-			kalahaTwo.getPlayer().setWinner(Winner.DRAW);
+			kalahaOne.getPlayer().setWinner(WinnerRelative.DRAW);
+			kalahaTwo.getPlayer().setWinner(WinnerRelative.DRAW);
 		}
 	}
 

@@ -1,13 +1,14 @@
 package nl.sogyo.mancala;
 
+import java.util.Scanner;
+
 import nl.sogyo.mancala.backend.Mancala;
+import nl.sogyo.mancala.backend.Winner;
 
 public class MancalaPlayer {
 	public static void main(String... args) {
 		MancalaPlayer play = new MancalaPlayer();
-		System.out.println(MancalaFormatter.format(play.getMancala()));
-		play.play(0);
-		System.out.println(MancalaFormatter.format(play.getMancala()));
+		play.play();
 	}
 
 	private Mancala mancala;
@@ -17,10 +18,52 @@ public class MancalaPlayer {
 	}
 
 	public MancalaPlayer() {
-		this.mancala = new Mancala();
+		this.mancala = new Mancala(1);
 	}
 
-	public void play(int field) {
-		this.mancala.doMove(field);
+	public void play() {
+		while (!this.mancala.hasWinner()) {
+			System.out.println(MancalaFormatter.format(this.mancala));
+			int currentTurn = this.mancala.getCurrentTurn();
+			System.out.format("Currently it is player %1s's turn.%n", currentTurn + 1);
+			boolean didMove = false;
+			do {
+				try {
+					int move = Integer.parseInt(getStringInput());
+					if ((move >= 1) && (move <= 6)) {
+						didMove = this.mancala.doMove((move - 1) + (currentTurn * 7));
+					}
+					if (!didMove) {
+						System.out.println("Illegal move, try again!");
+					}
+				} catch (NumberFormatException nfe) {
+					System.out.println("Not a number! Please try again");
+				} catch (IllegalArgumentException iae) {
+					System.out.println(iae.getMessage());
+				}
+			} while (!didMove);
+		}
+		Winner winner = this.mancala.getWinner();
+		if (winner == Winner.DRAW) {
+			System.out.println("It's a draw!");
+		} else if (winner == Winner.PLAYER_ONE) {
+			System.out.println("Player one won!");
+		} else if (winner == Winner.PLAYER_TWO) {
+			System.out.println("Player two won!");
+		}
+	}
+
+	static Scanner sc = new Scanner(System.in);
+
+	public static String getStringInput() {
+		String strinput = null;
+		try {
+			strinput = sc.nextLine();
+		} catch (Exception ex) {
+			System.out.println(ex.getMessage() + "\n");
+			ex.printStackTrace();
+			return null;
+		}
+		return strinput.trim();
 	}
 }
