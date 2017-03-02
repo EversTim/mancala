@@ -8,18 +8,16 @@ public abstract class Location {
 	Location() {
 	}
 
-	Location(Location firstLocation, int fieldsToGo, Location previous) {
+	Location(Location firstLocation, int fieldsToGo, Player player) {
 		fieldsToGo--;
-		if (previous instanceof Kalaha) {
-			this.player = previous.getPlayer().getOpponent();
-		} else {
-			this.player = previous.getPlayer();
-		}
+		this.player = player;
 		if (fieldsToGo > 0) {
 			if ((fieldsToGo % 7) == 1) {
-				this.nextLocation = new Kalaha(firstLocation, fieldsToGo, this);
+				this.nextLocation = new Kalaha(firstLocation, fieldsToGo, player);
+			} else if ((fieldsToGo % 7) == 0) {
+				this.nextLocation = new Field(firstLocation, fieldsToGo, player.getOpponent());
 			} else {
-				this.nextLocation = new Field(firstLocation, fieldsToGo, this);
+				this.nextLocation = new Field(firstLocation, fieldsToGo, player);
 			}
 		} else {
 			this.nextLocation = firstLocation;
@@ -35,10 +33,7 @@ public abstract class Location {
 		if (stonesToGo > 1) {
 			this.getNextLocation().continueMove(stonesToGo - 1);
 		} else {
-			// TODO Refactor, then implement stealing
-			if (!(this instanceof Kalaha)) {
-				this.getPlayer().endTurn();
-			}
+			this.player.endTurn();
 		}
 	}
 

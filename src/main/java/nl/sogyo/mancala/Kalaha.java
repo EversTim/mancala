@@ -7,8 +7,8 @@ public class Kalaha extends Location {
 		this.nextLocation = this;
 	}
 
-	Kalaha(Location firstLocation, int fieldsToGo, Location previous) {
-		super(firstLocation, fieldsToGo, previous);
+	Kalaha(Location firstLocation, int fieldsToGo, Player player) {
+		super(firstLocation, fieldsToGo, player);
 		this.stones = 0;
 	}
 
@@ -20,9 +20,15 @@ public class Kalaha extends Location {
 	@Override
 	void continueMove(int stonesToGo) {
 		if (this.getPlayer().hasTurn()) {
-			super.continueMove(stonesToGo);
+			if (stonesToGo > 1) {
+				super.continueMove(stonesToGo);
+			}
 		} else {
 			this.getNextLocation().continueMove(stonesToGo);
 		}
+	}
+
+	public void add(int stones) {
+		this.stones += stones;
 	}
 }

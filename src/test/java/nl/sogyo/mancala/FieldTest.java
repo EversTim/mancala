@@ -2,18 +2,13 @@ package nl.sogyo.mancala;
 
 import static org.junit.Assert.*;
 
-import org.junit.Before;
 import org.junit.Test;
 
 public class FieldTest {
 
-	@Before
-	public void setUp() throws Exception {
-	}
-
 	@Test
 	public void getStonesFromFreshFieldShouldEqualFour() {
-		Field field = new Field();
+		Location field = new Field();
 		assertEquals(4, field.getStones());
 	}
 
@@ -22,6 +17,13 @@ public class FieldTest {
 		Field field = new Field();
 		field.doMove();
 		assertEquals(0, field.getStones());
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void shouldNotDoMoveOnOpponentSquares() {
+		Field field = new Field();
+		field.getPlayer().endTurn();
+		field.doMove();
 	}
 
 	@Test
@@ -33,7 +35,7 @@ public class FieldTest {
 
 	@Test
 	public void newFieldShouldBePlayable() {
-		Field field = new Field();
+		Location field = new Field();
 		assertTrue(field.isPlayable());
 	}
 
@@ -52,18 +54,17 @@ public class FieldTest {
 	}
 
 	@Test
-	public void opponentKalahaShouldNotTakeAStone() {
-		Field field = new Field();
-		field = (Field) field.getNthLocationRelative(12);
-		field.doMove();
-		assertEquals(0, field.getNextLocation().getStones());
+	public void setupForTakeStonesShouldHaveZeroOnFieldFour() {
+		Location field = Field.getTakeStonesTestSetup();
+		field = field.getNthLocationRelative(4);
+		assertEquals(0, field.getStones());
 	}
 
 	@Test
-	public void ownKalahaShouldTakeAStone() {
-		Field field = new Field();
-		field = (Field) field.getNthLocationRelative(5);
+	public void landingInOwnEmptyFieldShouldEmptyOpposingField() {
+		Field field = Field.getTakeStonesTestSetup();
 		field.doMove();
-		assertEquals(1, field.getNextLocation().getStones());
+		Location fieldFour = field.getNthLocationRelative(4);
+		assertEquals(0, fieldFour.getOpposite().getStones());
 	}
 }

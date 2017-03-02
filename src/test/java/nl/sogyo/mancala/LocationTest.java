@@ -40,7 +40,7 @@ public class LocationTest {
 
 	@Test
 	public void locationFourteenShouldEqualLocationZero() {
-		Field field = new Field();
+		Location field = new Field();
 		Location fieldFourteen = field.getNextLocation().getNextLocation().getNextLocation().getNextLocation()
 				.getNextLocation().getNextLocation().getNextLocation().getNextLocation().getNextLocation()
 				.getNextLocation().getNextLocation().getNextLocation().getNextLocation().getNextLocation();
@@ -49,20 +49,20 @@ public class LocationTest {
 
 	@Test
 	public void locationFourteenShouldEqualLocationZeroUsingGetNthFieldMethod() {
-		Field field = new Field();
+		Location field = new Field();
 		Location fieldFourteen = field.getNthLocationRelative(14);
 		assertEquals(fieldFourteen, field);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void getNthLocationRelativeShouldThrowErrorIfNIsNegative() {
-		Field field = new Field();
+		Location field = new Field();
 		field.getNthLocationRelative(-1);
 	}
 
 	@Test
 	public void locationZeroShouldBeOppositeLocationTwelve() {
-		Field field = new Field();
+		Location field = new Field();
 		Location opposite = field.getOpposite();
 		Location fieldThirteen = field.getNthLocationRelative(12);
 		assertEquals(fieldThirteen, opposite);
@@ -78,7 +78,7 @@ public class LocationTest {
 
 	@Test
 	public void locationTwelveShouldBeOppositeLocationZero() {
-		Field field = new Field();
+		Location field = new Field();
 		Location fieldThirteen = field.getNthLocationRelative(12);
 		Location opposite = fieldThirteen.getOpposite();
 		assertEquals(field, opposite);
