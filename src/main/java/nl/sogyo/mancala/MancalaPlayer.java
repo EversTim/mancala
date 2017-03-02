@@ -18,7 +18,7 @@ public class MancalaPlayer {
 	}
 
 	public MancalaPlayer() {
-		this.mancala = new Mancala(1);
+		this.mancala = new Mancala(4);
 	}
 
 	public void play() {
