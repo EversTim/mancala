@@ -26,23 +26,31 @@ public class MancalaPlayer {
 			System.out.println(MancalaFormatter.format(this.mancala));
 			int currentTurn = this.mancala.getCurrentTurn();
 			System.out.format("Currently it is player %1s's turn.%n", currentTurn + 1);
-			boolean didMove = false;
-			do {
-				try {
-					int move = Integer.parseInt(getStringInput());
-					if ((move >= 1) && (move <= 6)) {
-						didMove = this.mancala.doMove((move - 1) + (currentTurn * 7));
-					}
-					if (!didMove) {
-						System.out.println("Illegal move, try again!");
-					}
-				} catch (NumberFormatException nfe) {
-					System.out.println("Not a number! Please try again");
-				} catch (IllegalArgumentException iae) {
-					System.out.println(iae.getMessage());
-				}
-			} while (!didMove);
+			this.askAndDoMove(currentTurn);
+			this.printWinner();
 		}
+	}
+
+	private void askAndDoMove(int currentTurn) {
+		boolean didMove = false;
+		do {
+			try {
+				int move = Integer.parseInt(getStringInput());
+				if ((move >= 1) && (move <= 6)) {
+					didMove = this.mancala.doMove((move - 1) + (currentTurn * 7));
+				}
+				if (!didMove) {
+					System.out.println("Illegal move, try again!");
+				}
+			} catch (NumberFormatException nfe) {
+				System.out.println("Not a number! Please try again");
+			} catch (IllegalArgumentException iae) {
+				System.out.println(iae.getMessage());
+			}
+		} while (!didMove);
+	}
+
+	private void printWinner() {
 		Winner winner = this.mancala.getWinner();
 		if (winner == Winner.DRAW) {
 			System.out.println("It's a draw!");
