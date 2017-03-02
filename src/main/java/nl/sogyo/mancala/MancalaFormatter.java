@@ -11,8 +11,8 @@ public class MancalaFormatter {
 	private static final int FIELDWIDTHINTERNAL = 2;
 	private static final int KALAHAWIDTHINTERNAL = 2;
 
-	private static final int FIELDWIDTHTOTAL = 4;
-	private static final int KALAHAWIDTHTOTAL = 4;
+	private static final int FIELDWIDTHTOTAL = FIELDWIDTHINTERNAL + 2;
+	private static final int KALAHAWIDTHTOTAL = KALAHAWIDTHINTERNAL + 2;
 
 	private static final int SPACERWIDTH = 1;
 
@@ -25,7 +25,7 @@ public class MancalaFormatter {
 		List<Integer> p2 = extractFieldsPlayerTwo(stones);
 		Collections.reverse(p2);
 		StringBuilder build = new StringBuilder();
-		build.append(fieldLine(p2));
+		build.append(fieldLine(p2, "P2", ""));
 		build.append('\n');
 
 		build.append(fieldNumbersReverse());
@@ -38,7 +38,7 @@ public class MancalaFormatter {
 		build.append(fieldNumbers());
 		build.append('\n');
 
-		build.append(fieldLine(p1));
+		build.append(fieldLine(p1, "", "P1"));
 
 		return build.toString();
 	}
@@ -87,9 +87,9 @@ public class MancalaFormatter {
 		return build;
 	}
 
-	private static StringBuilder fieldLine(List<Integer> fieldStones) {
+	private static StringBuilder fieldLine(List<Integer> fieldStones, String topLeft, String bottomRight) {
 		StringBuilder build = new StringBuilder();
-		build.append(padRight("", KALAHAWIDTHTOTAL + SPACERWIDTH));
+		build.append(padRight(topLeft, KALAHAWIDTHTOTAL + SPACERWIDTH));
 		for (int i : fieldStones) {
 			build.append(padLeft("", FIELDWIDTHTOTAL, '-'));
 			build.append(padRight("", SPACERWIDTH));
@@ -108,6 +108,7 @@ public class MancalaFormatter {
 			build.append(padLeft("", FIELDWIDTHTOTAL, '-'));
 			build.append(padRight("", SPACERWIDTH));
 		}
+		build.append(padLeft(bottomRight, KALAHAWIDTHTOTAL));
 		build.append('\n');
 		return build;
 	}
