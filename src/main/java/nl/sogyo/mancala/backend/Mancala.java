@@ -13,6 +13,10 @@ public class Mancala {
 		this.field = new Field(numberOfStones);
 	}
 
+	private Field getField() {
+		return this.field;
+	}
+
 	public boolean doMove(int fieldNumber) {
 		if ((fieldNumber < 0) || (fieldNumber > 13)) {
 			throw new IllegalArgumentException("doMove must be given a number between 0 and 13 inclusive.");
@@ -26,8 +30,11 @@ public class Mancala {
 		}
 	}
 
-	public Winner getWinner() {
+	public boolean hasWinner() {
+		return (this.field.getPlayer().getWinner() != WinnerRelative.UNDECIDED);
+	}
 
+	public Winner getWinner() {
 		if (this.getField().getPlayer().getWinner() == WinnerRelative.DRAW) {
 			return Winner.DRAW;
 		} else if (this.getField().getPlayer().getWinner() == WinnerRelative.SELF) {
@@ -39,10 +46,6 @@ public class Mancala {
 		}
 	}
 
-	Field getField() {
-		return this.field;
-	}
-
 	public ArrayList<Integer> getStoneAmounts() {
 		ArrayList<Integer> stones = new ArrayList<Integer>(14);
 		stones.add(this.field.getStones());
@@ -52,10 +55,6 @@ public class Mancala {
 			cur = cur.getNextLocation();
 		}
 		return stones;
-	}
-
-	public boolean hasWinner() {
-		return (this.field.getPlayer().getWinner() != WinnerRelative.UNDECIDED);
 	}
 
 	public int getCurrentTurn() {

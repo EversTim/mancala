@@ -21,7 +21,7 @@ class Field extends Location {
 		if (this.hasMove()) {
 			if (this.isPlayable()) {
 				int stonesToMove = this.getStones();
-				this.stones = 0;
+				this.empty();
 				this.getNextLocation().continueMove(stonesToMove);
 			} else {
 				throw new IllegalArgumentException("Cannot move opponents fields or your empty fields!");

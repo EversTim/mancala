@@ -12,7 +12,7 @@ public class MancalaTest {
 	public void doMoveOnFirstFieldShouldEmptyFirstField() {
 		Mancala mancala = new Mancala();
 		mancala.doMove(0);
-		assertEquals(0, mancala.getField().getStones());
+		assertEquals(new Integer(0), mancala.getStoneAmounts().get(0));
 	}
 
 	@Test

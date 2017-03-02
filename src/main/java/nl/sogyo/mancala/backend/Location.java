@@ -38,17 +38,7 @@ abstract class Location {
 	}
 
 	Location getOpposite() {
-		Location toTest = this;
-		int count = 0;
-		while (!(toTest instanceof Kalaha)) {
-			toTest = toTest.getNextLocation();
-			count++;
-		}
-		Location opposite = toTest;
-		for (int i = 0; i < count; i++) {
-			opposite = opposite.getNextLocation();
-		}
-		return opposite;
+		return this.getNextLocation().getOpposite().getNextLocation();
 	}
 
 	Location getNextLocation() {
