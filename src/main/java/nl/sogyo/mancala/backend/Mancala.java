@@ -72,17 +72,28 @@ public class Mancala implements Serializable {
 		return 1;
 	}
 
-	public Mancala deepClone() throws IOException, ClassNotFoundException {
+	public Mancala deepClone() {
+		Mancala cloned = null;
+		try {
+			// http://howtodoinjava.com/core-java/serialization/how-to-do-deep-cloning-using-in-memory-serialization-in-java/
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			ObjectOutputStream out = new ObjectOutputStream(bos);
+			out.writeObject(this);
 
-		// http://howtodoinjava.com/core-java/serialization/how-to-do-deep-cloning-using-in-memory-serialization-in-java/
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		ObjectOutputStream out = new ObjectOutputStream(bos);
-		out.writeObject(this);
+			ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+			ObjectInputStream in = new ObjectInputStream(bis);
+			Serializable copy = (Serializable) in.readObject();
 
-		ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
-		ObjectInputStream in = new ObjectInputStream(bis);
-		Serializable copy = (Serializable) in.readObject();
-
-		return (Mancala) copy;
+			cloned = (Mancala) copy;
+		} catch (ClassNotFoundException e) {
+			System.out.println("Something went horribly wrong!");
+			e.printStackTrace();
+			System.exit(1);
+		} catch (IOException e) {
+			System.out.println("Something went horribly wrong!");
+			e.printStackTrace();
+			System.exit(1);
+		}
+		return cloned;
 	}
 }

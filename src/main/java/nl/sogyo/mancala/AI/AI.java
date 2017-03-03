@@ -26,11 +26,11 @@ public class AI {
 		int bestScore = Integer.MIN_VALUE;
 		int bestMove = 0;
 		for (int i = 1; i <= 6; i++) {
-			Mancala newState = this.getDeepClone(this.mancala);
+			Mancala newState = this.mancala.deepClone();
 			boolean hasMoved = newState.doMove(i);
 			if (hasMoved) {
 				int score = 0;
-				if (newState.getCurrentTurn() != this.player) {
+				if (newState.getCurrentTurn() != this.mancala.getCurrentTurn()) {
 					score = this.getScoreMinimize(newState, depth - 1);
 				} else {
 					score = this.getScoreMaximize(newState, depth - 1);
@@ -46,15 +46,15 @@ public class AI {
 
 	private int getScoreMaximize(Mancala currentState, int depth) {
 		if ((depth == 0) || !currentState.canCurrentPlayerMove()) {
-			return this.getHeuristicScore(currentState);
+			return this.getHeuristicScore(currentState, currentState.getCurrentTurn());
 		}
 		int bestScore = Integer.MIN_VALUE;
 		for (int i = 1; i <= 6; i++) {
-			Mancala newState = this.getDeepClone(currentState);
+			Mancala newState = currentState.deepClone();
 			boolean hasMoved = newState.doMove(i);
 			if (hasMoved) {
 				int score = 0;
-				if (newState.getCurrentTurn() == this.player) {
+				if (newState.getCurrentTurn() != currentState.getCurrentTurn()) {
 					score = this.getScoreMinimize(newState, depth - 1);
 				} else {
 					score = this.getScoreMaximize(newState, depth - 1);
@@ -67,22 +67,29 @@ public class AI {
 
 	private int getScoreMinimize(Mancala currentState, int depth) {
 		if ((depth == 0) || !currentState.canCurrentPlayerMove()) {
-			return this.getHeuristicScore(currentState);
+			return this.getHeuristicScore(currentState, currentState.getCurrentTurn());
 		}
 		int bestScore = Integer.MAX_VALUE;
 		for (int i = 1; i <= 6; i++) {
-			Mancala newState = this.getDeepClone(currentState);
+			Mancala newState = currentState.deepClone();
 			boolean hasMoved = newState.doMove(i);
 			if (hasMoved) {
-				int score = this.getScoreMaximize(newState, depth - 1);
+				int score = 0;
+				if (newState.getCurrentTurn() == currentState.getCurrentTurn()) {
+					score = this.getScoreMinimize(newState, depth - 1);
+				} else {
+					score = this.getScoreMaximize(newState, depth - 1);
+				}
 				bestScore = Math.min(bestScore, score);
 			}
 		}
 		return bestScore;
 	}
 
-	private int getHeuristicScore(Mancala currentState) {
-		return this.getTentativeScore(currentState, currentState.getCurrentTurn());
+	public int getHeuristicScore(Mancala currentState, int turn) {
+		int score = this.getTentativeScore(currentState, turn);
+		score += 2 * this.getKalahaScore(currentState, turn);
+		return score;
 	}
 
 	public int getTentativeScore(Mancala currentState, int player) {
@@ -94,19 +101,8 @@ public class AI {
 		return result;
 	}
 
-	private Mancala getDeepClone(Mancala toClone) {
-		Mancala cloned = null;
-		try {
-			cloned = toClone.deepClone();
-		} catch (ClassNotFoundException e) {
-			System.out.println("Something went horribly wrong!");
-			e.printStackTrace();
-			System.exit(1);
-		} catch (IOException e) {
-			System.out.println("Something went horribly wrong!");
-			e.printStackTrace();
-			System.exit(1);
-		}
-		return cloned;
+	public int getKalahaScore(Mancala currentState, int player) {
+		ArrayList<Integer> stoneAmounts = currentState.getStoneAmounts();
+		return stoneAmounts.get(6 + (player * 7));
 	}
 }

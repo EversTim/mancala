@@ -45,4 +45,12 @@ public class AITest {
 		AI ai = new AI(mancala, 0);
 		assertEquals(24, ai.getTentativeScore(ai.getMancala(), 0));
 	}
+
+	@Test
+	public void getHeuristicScoreShouldReturnTwentySixAferMovingThree() {
+		Mancala mancala = new Mancala();
+		mancala.doMove(3);
+		AI ai = new AI(mancala, 0);
+		assertEquals(26, ai.getHeuristicScore(mancala, 0));
+	}
 }

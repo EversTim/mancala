@@ -1,5 +1,7 @@
 package nl.sogyo.mancala;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Scanner;
 
 import nl.sogyo.mancala.AI.AI;
@@ -15,6 +17,7 @@ public class MancalaPlayer {
 
 	private Mancala mancala;
 	int aiPlayer = -1;
+	int aiDepth = 5;
 
 	public MancalaPlayer() {
 		this.mancala = new Mancala(4);
@@ -38,8 +41,12 @@ public class MancalaPlayer {
 	private void askAndDoMove() {
 		boolean didMove = false;
 		if (this.aiPlayer == this.mancala.getCurrentTurn()) {
-			AI ai = new AI(this.mancala, this.aiPlayer);
-			int moveToDo = ai.getBestMove(5);
+			AI ai = new AI(this.mancala.deepClone(), this.aiPlayer);
+			Instant start = Instant.now();
+			int moveToDo = ai.getBestMove(this.aiDepth);
+			Instant end = Instant.now();
+			System.out.println("Player " + (this.mancala.getCurrentTurn() + 1) + " moved field " + moveToDo + " in "
+					+ Duration.between(start, end) + ".");
 			this.mancala.doMove(moveToDo);
 		} else {
 			do {
