@@ -18,10 +18,10 @@ public class Mancala {
 	}
 
 	public boolean doMove(int fieldNumber) {
-		if ((fieldNumber < 0) || (fieldNumber > 13)) {
-			throw new IllegalArgumentException("doMove must be given a number between 0 and 13 inclusive.");
+		if ((fieldNumber < 1) || (fieldNumber > 6)) {
+			throw new IllegalArgumentException("doMove must be given a number 1 and 6.");
 		}
-		Location toPlay = this.field.getNthLocationRelative(fieldNumber);
+		Location toPlay = this.field.getNthLocationRelative((fieldNumber - 1) + (this.getCurrentTurn() * 7));
 		try {
 			((Field) toPlay).doMove();
 			return true;
