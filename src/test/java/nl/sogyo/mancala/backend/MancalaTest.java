@@ -11,7 +11,7 @@ public class MancalaTest {
 	@Test
 	public void doMoveOnFirstFieldShouldEmptyFirstField() {
 		Mancala mancala = new Mancala();
-		mancala.doMove(0);
+		mancala.doMove(1);
 		assertEquals(new Integer(0), mancala.getStoneAmounts().get(0));
 	}
 
