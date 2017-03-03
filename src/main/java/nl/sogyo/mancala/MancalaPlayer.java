@@ -2,23 +2,27 @@ package nl.sogyo.mancala;
 
 import java.util.Scanner;
 
+import nl.sogyo.mancala.AI.AI;
 import nl.sogyo.mancala.backend.Mancala;
 import nl.sogyo.mancala.backend.Winner;
 
 public class MancalaPlayer {
+
 	public static void main(String... args) {
 		MancalaPlayer play = new MancalaPlayer();
 		play.play();
 	}
 
 	private Mancala mancala;
-
-	public Mancala getMancala() {
-		return this.mancala;
-	}
+	int aiPlayer = -1;
 
 	public MancalaPlayer() {
 		this.mancala = new Mancala(4);
+		this.aiPlayer = 1;
+	}
+
+	public Mancala getMancala() {
+		return this.mancala;
 	}
 
 	public void play() {
@@ -33,16 +37,22 @@ public class MancalaPlayer {
 
 	private void askAndDoMove() {
 		boolean didMove = false;
-		do {
-			try {
-				int move = Integer.parseInt(getStringInput());
-				didMove = this.mancala.doMove(move);
-			} catch (NumberFormatException nfe) {
-				System.out.println("Not a number! Please try again");
-			} catch (IllegalArgumentException iae) {
-				System.out.println("Illegal move, try again!");
-			}
-		} while (!didMove);
+		if (this.aiPlayer == this.mancala.getCurrentTurn()) {
+			AI ai = new AI(this.mancala, this.aiPlayer);
+			int moveToDo = ai.getBestMove(5);
+			this.mancala.doMove(moveToDo);
+		} else {
+			do {
+				try {
+					int move = Integer.parseInt(getStringInput());
+					didMove = this.mancala.doMove(move);
+				} catch (NumberFormatException nfe) {
+					System.out.println("Not a number! Please try again");
+				} catch (IllegalArgumentException iae) {
+					System.out.println("Illegal move, try again!");
+				}
+			} while (!didMove);
+		}
 	}
 
 	private void printWinner() {

@@ -1,5 +1,7 @@
 package nl.sogyo.mancala.backend;
 
-enum WinnerRelative {
+import java.io.Serializable;
+
+enum WinnerRelative implements Serializable {
 	UNDECIDED, DRAW, SELF, OTHER;
 }

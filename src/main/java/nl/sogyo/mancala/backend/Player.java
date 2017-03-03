@@ -1,6 +1,10 @@
 package nl.sogyo.mancala.backend;
 
-class Player {
+import java.io.Serializable;
+
+class Player implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Player opponent;
 	private boolean hasTurn;

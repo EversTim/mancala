@@ -2,6 +2,8 @@ package nl.sogyo.mancala.backend;
 
 public class Kalaha extends Location {
 
+	private static final long serialVersionUID = 1L;
+
 	Kalaha() {
 		this.stones = 0;
 		this.nextLocation = this;

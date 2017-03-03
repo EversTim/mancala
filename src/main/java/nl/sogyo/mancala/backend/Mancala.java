@@ -1,8 +1,12 @@
 package nl.sogyo.mancala.backend;
 
 import java.util.ArrayList;
+import java.io.*;
 
-public class Mancala {
+public class Mancala implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	public Field field;
 
 	public Mancala() {
@@ -28,6 +32,10 @@ public class Mancala {
 		} catch (IllegalArgumentException iae) {
 			return false;
 		}
+	}
+
+	public boolean canCurrentPlayerMove() {
+		return this.field.getNthLocationRelative(this.getCurrentTurn() * 7).hasMove();
 	}
 
 	public boolean hasWinner() {
@@ -62,5 +70,19 @@ public class Mancala {
 			return 0;
 		}
 		return 1;
+	}
+
+	public Mancala deepClone() throws IOException, ClassNotFoundException {
+
+		// http://howtodoinjava.com/core-java/serialization/how-to-do-deep-cloning-using-in-memory-serialization-in-java/
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ObjectOutputStream out = new ObjectOutputStream(bos);
+		out.writeObject(this);
+
+		ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+		ObjectInputStream in = new ObjectInputStream(bis);
+		Serializable copy = (Serializable) in.readObject();
+
+		return (Mancala) copy;
 	}
 }

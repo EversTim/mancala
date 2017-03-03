@@ -2,6 +2,8 @@ package nl.sogyo.mancala.backend;
 
 class Field extends Location {
 
+	private static final long serialVersionUID = 1L;
+
 	Field() {
 		this(4);
 	}

@@ -1,6 +1,11 @@
 package nl.sogyo.mancala.backend;
 
-abstract class Location {
+import java.io.Serializable;
+
+abstract class Location implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	int stones;
 	Location nextLocation;
 	Player player;

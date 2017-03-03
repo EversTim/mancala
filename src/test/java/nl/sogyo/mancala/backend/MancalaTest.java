@@ -38,4 +38,16 @@ public class MancalaTest {
 		Mancala mancala = new Mancala();
 		assertFalse(mancala.hasWinner());
 	}
+
+	@Test
+	public void newBoardShouldHaveMoveForCurrentPlayer() {
+		Mancala mancala = new Mancala();
+		assertTrue(mancala.canCurrentPlayerMove());
+	}
+
+	@Test
+	public void emptyBoardShouldNotHaveMoveForCurrentPlayer() {
+		Mancala mancala = new Mancala(0);
+		assertFalse(mancala.canCurrentPlayerMove());
+	}
 }
