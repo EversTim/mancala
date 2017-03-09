@@ -2,7 +2,6 @@ package nl.sogyo.mancala;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import nl.sogyo.mancala.AI.AI;
@@ -19,13 +18,16 @@ public class MancalaPlayer {
 	private Mancala mancala;
 	boolean[] aiPlayers = new boolean[2];
 	int[] aiDepths = new int[2];
+	Duration avgPerTurn;
+	int turns = 0;
 
 	public MancalaPlayer() {
 		this.mancala = new Mancala(4);
-		this.aiPlayers[0] = false;
+		this.aiPlayers[0] = true;
 		this.aiPlayers[1] = true;
 		this.aiDepths[0] = 5;
-		this.aiDepths[1] = 5;
+		this.aiDepths[1] = 7;
+		this.avgPerTurn = Duration.ZERO;
 	}
 
 	public Mancala getMancala() {
@@ -44,6 +46,7 @@ public class MancalaPlayer {
 
 	private void askAndDoMove() {
 		boolean didMove = false;
+		System.out.println("Current turn counter: " + this.turns + ".");
 		if (this.aiPlayers[this.mancala.getCurrentTurn()]) {
 			AI ai = new AI(this.mancala.deepClone(), this.mancala.getCurrentTurn());
 			Instant start = Instant.now();
@@ -51,6 +54,8 @@ public class MancalaPlayer {
 			Instant end = Instant.now();
 			System.out.println("Player " + (this.mancala.getCurrentTurn() + 1) + " moved field " + moveToDo + " in "
 					+ Duration.between(start, end) + ".");
+			this.updateAverage(Duration.between(start, end));
+			System.out.println("Average time per move: " + this.avgPerTurn + ".");
 			this.mancala.doMove(moveToDo);
 		} else {
 			do {
@@ -64,6 +69,11 @@ public class MancalaPlayer {
 				}
 			} while (!didMove);
 		}
+	}
+
+	private void updateAverage(Duration dur) {
+		this.avgPerTurn = (this.avgPerTurn.multipliedBy(this.turns).plus(dur)).dividedBy(this.turns + 1);
+		this.turns++;
 	}
 
 	private void printWinner() {

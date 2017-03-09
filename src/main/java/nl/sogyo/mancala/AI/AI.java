@@ -1,6 +1,5 @@
 package nl.sogyo.mancala.AI;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import nl.sogyo.mancala.backend.Mancala;
@@ -33,7 +32,7 @@ public class AI {
 				if (newState.getCurrentTurn() != this.mancala.getCurrentTurn()) {
 					score = this.getScoreMinimize(newState, depth - 1);
 				} else {
-					score = this.getScoreMaximize(newState, depth - 1);
+					score = this.getScoreMaximize(newState, depth);
 				}
 				if (score > bestScore) {
 					bestScore = score;
@@ -41,12 +40,15 @@ public class AI {
 				}
 			}
 		}
+		System.out.println(this.leafCount);
 		return bestMove;
 	}
 
+	public int leafCount = 0;
+
 	private int getScoreMaximize(Mancala currentState, int depth) {
-		if ((depth == 0) || !currentState.canCurrentPlayerMove()) {
-			return this.getHeuristicScore(currentState, currentState.getCurrentTurn());
+		if ((depth <= 0) || !currentState.canCurrentPlayerMove()) {
+			return this.getHeuristicScore(currentState);
 		}
 		int bestScore = Integer.MIN_VALUE;
 		for (int i = 1; i <= 6; i++) {
@@ -57,7 +59,7 @@ public class AI {
 				if (newState.getCurrentTurn() != currentState.getCurrentTurn()) {
 					score = this.getScoreMinimize(newState, depth - 1);
 				} else {
-					score = this.getScoreMaximize(newState, depth - 1);
+					score = this.getScoreMaximize(newState, depth);
 				}
 				bestScore = Math.max(bestScore, score);
 			}
@@ -66,8 +68,8 @@ public class AI {
 	}
 
 	private int getScoreMinimize(Mancala currentState, int depth) {
-		if ((depth == 0) || !currentState.canCurrentPlayerMove()) {
-			return this.getHeuristicScore(currentState, currentState.getCurrentTurn());
+		if ((depth <= 0) || !currentState.canCurrentPlayerMove()) {
+			return this.getHeuristicScore(currentState);
 		}
 		int bestScore = Integer.MAX_VALUE;
 		for (int i = 1; i <= 6; i++) {
@@ -75,10 +77,10 @@ public class AI {
 			boolean hasMoved = newState.doMove(i);
 			if (hasMoved) {
 				int score = 0;
-				if (newState.getCurrentTurn() == currentState.getCurrentTurn()) {
-					score = this.getScoreMinimize(newState, depth - 1);
+				if (newState.getCurrentTurn() != currentState.getCurrentTurn()) {
+					score = -this.getScoreMaximize(newState, depth - 1);
 				} else {
-					score = this.getScoreMaximize(newState, depth - 1);
+					score = -this.getScoreMinimize(newState, depth);
 				}
 				bestScore = Math.min(bestScore, score);
 			}
@@ -86,23 +88,28 @@ public class AI {
 		return bestScore;
 	}
 
-	public int getHeuristicScore(Mancala currentState, int turn) {
-		int score = this.getTentativeScore(currentState, turn);
-		score += 2 * this.getKalahaScore(currentState, turn);
+	public int getHeuristicScore(Mancala currentState) {
+		this.leafCount++;
+		ArrayList<Integer> stoneAmounts = currentState.getStoneAmounts();
+		int score = 0 * this.getTentativeScoreDiff(currentState, stoneAmounts);
+		score += 2 * this.getKalahaScoreDiff(currentState, stoneAmounts);
 		return score;
 	}
 
-	public int getTentativeScore(Mancala currentState, int player) {
-		ArrayList<Integer> stoneAmounts = currentState.getStoneAmounts();
+	public int getTentativeScoreDiff(Mancala currentStatee, ArrayList<Integer> stoneAmounts) {
 		int result = 0;
-		for (int i = 0 + (player * 7); i < (7 + (player * 7)); i++) {
+		for (int i = 0; i < 7; i++) {
 			result += stoneAmounts.get(i);
+		}
+		for (int i = 7; i < 14; i++) {
+			result -= stoneAmounts.get(i);
 		}
 		return result;
 	}
 
-	public int getKalahaScore(Mancala currentState, int player) {
-		ArrayList<Integer> stoneAmounts = currentState.getStoneAmounts();
-		return stoneAmounts.get(6 + (player * 7));
+	public int getKalahaScoreDiff(Mancala currentStatee, ArrayList<Integer> stoneAmounts) {
+		int kalahaOne = stoneAmounts.get(6);
+		int kalahaTwo = stoneAmounts.get(6 + 7);
+		return kalahaOne - kalahaTwo;
 	}
 }

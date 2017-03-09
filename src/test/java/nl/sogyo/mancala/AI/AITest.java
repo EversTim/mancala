@@ -40,17 +40,18 @@ public class AITest {
 	}
 
 	@Test
-	public void getTentativeScoreShouldReturnTwentyFourOnNewGame() {
+	public void getTentativeScoreDiffShouldReturnZeroOnNewGame() {
 		Mancala mancala = new Mancala();
 		AI ai = new AI(mancala, 0);
-		assertEquals(24, ai.getTentativeScore(ai.getMancala(), 0));
+		ArrayList<Integer> stoneAmounts = mancala.getStoneAmounts();
+		assertEquals(0, ai.getTentativeScoreDiff(ai.getMancala(), stoneAmounts));
 	}
 
 	@Test
-	public void getHeuristicScoreShouldReturnTwentySixAferMovingThree() {
+	public void getKalahaDiffShouldReturnZeroOnNewGame() {
 		Mancala mancala = new Mancala();
-		mancala.doMove(3);
 		AI ai = new AI(mancala, 0);
-		assertEquals(26, ai.getHeuristicScore(mancala, 0));
+		ArrayList<Integer> stoneAmounts = mancala.getStoneAmounts();
+		assertEquals(0, ai.getKalahaScoreDiff(ai.getMancala(), stoneAmounts));
 	}
 }
