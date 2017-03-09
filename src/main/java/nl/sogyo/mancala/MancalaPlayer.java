@@ -23,8 +23,8 @@ public class MancalaPlayer {
 
 	public MancalaPlayer() {
 		this.mancala = new Mancala(4);
-		this.aiPlayers[0] = true;
-		this.aiPlayers[1] = true;
+		this.aiPlayers[0] = false;
+		this.aiPlayers[1] = false;
 		this.aiDepths[0] = 5;
 		this.aiDepths[1] = 7;
 		this.avgPerTurn = Duration.ZERO;
